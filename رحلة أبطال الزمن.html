@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>رحلة أبطال الزمن</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg1:#bfe9ff;--bg2:#fff3c4;--card:#fff;--ink:#2b2d5b;--main:#ff7a59;--main2:#ffb703;--ok:#2fbf71;--okbg:#dcf8e8;--no:#e8505b;--nobg:#ffe5e7;--opt:#eef3ff;--optb:#b9c8ff;--shadow:rgba(43,45,91,.18);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg1:#1d2347;--bg2:#2d2a4f;--card:#2a2f5c;--ink:#fff7e0;--opt:#363c72;--optb:#6c76c9;--okbg:#1d4a38;--nobg:#5a2430;--shadow:rgba(0,0,0,.4)}}
+:root[data-theme="dark"]{--bg1:#1d2347;--bg2:#2d2a4f;--card:#2a2f5c;--ink:#fff7e0;--opt:#363c72;--optb:#6c76c9;--okbg:#1d4a38;--nobg:#5a2430;--shadow:rgba(0,0,0,.4)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100vh;font-family:'Cairo','Segoe UI',Tahoma,Arial,sans-serif;color:var(--ink);background:linear-gradient(160deg,var(--bg1),var(--bg2));display:flex;justify-content:center;padding:14px;overflow-x:hidden;background-attachment:fixed}
+#app{width:100%;max-width:740px}
+.card{background:var(--card);border-radius:28px;padding:20px;box-shadow:0 10px 30px var(--shadow);text-align:center;animation:pop .4s ease}
+@keyframes pop{from{transform:scale(.95);opacity:0}to{transform:none;opacity:1}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+h1{font-size:clamp(28px,7vw,44px);margin:6px 0;color:var(--main)}
+h2{font-size:clamp(22px,5vw,30px);margin:6px 0}
+p{font-size:clamp(17px,4vw,21px);line-height:1.7;margin:8px 0}
+.tiko{font-size:84px;display:inline-block;animation:bob 2s infinite}
+.bubble{background:var(--opt);border:3px dashed var(--optb);border-radius:20px;padding:8px 16px;margin:10px 0}
+.btn{font-family:inherit;font-weight:800;font-size:clamp(19px,4.5vw,24px);border:0;border-radius:999px;padding:12px 32px;margin-top:14px;color:#fff;background:linear-gradient(180deg,var(--main2),var(--main));box-shadow:0 6px 0 #c4482a;cursor:pointer}
+.btn:active{transform:translateY(4px);box-shadow:0 2px 0 #c4482a}
+.btn.sm{font-size:16px;padding:6px 16px;margin:0;box-shadow:0 3px 0 #c4482a}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.pill{background:var(--opt);border-radius:999px;padding:5px 14px;font-weight:800;font-size:17px;border:2px solid var(--optb)}
+.lvname{font-weight:800;font-size:clamp(18px,4.5vw,24px);color:var(--main);margin:4px 0}
+.steps{display:flex;gap:6px;justify-content:center;margin:6px 0 8px}
+.step{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:21px;background:var(--opt);border:3px solid var(--optb);filter:grayscale(1);opacity:.7}
+.step.on{filter:none;opacity:1;border-color:var(--main);transform:scale(1.12);background:#fff3c4}
+.step.done{filter:none;opacity:1;border-color:var(--ok);background:var(--okbg)}
+.bar{height:16px;border-radius:99px;background:var(--opt);border:2px solid var(--optb);overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--ok),var(--main2));transition:width .6s}
+.q{font-size:clamp(21px,5vw,28px);font-weight:800;margin:6px 0 10px;line-height:1.6}
+.blank{display:inline-block;min-width:70px;border-bottom:4px dashed var(--main);color:var(--main);padding:0 8px}
+.visual{display:flex;justify-content:center;align-items:center;gap:12px;margin:6px 0;flex-wrap:wrap}
+.big{font-size:84px;line-height:1.1}
+.clock{width:min(42vw,180px);height:auto}
+.arrow{font-size:34px;color:var(--main)}
+.opts{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:10px}
+.opt{font-family:inherit;font-weight:800;font-size:clamp(17px,4.2vw,22px);padding:13px 10px;border-radius:18px;border:3px solid var(--optb);background:var(--opt);color:var(--ink);cursor:pointer}
+.opt:hover:not(:disabled){transform:translateY(-2px);border-color:var(--main)}
+.opt:disabled{cursor:default}
+.opt.right{background:var(--okbg);border-color:var(--ok)}
+.opt.wrong{background:var(--nobg);border-color:var(--no)}
+.opt.pick{border-color:var(--main);background:#fff3c4;color:#2b2d5b}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;background:var(--opt);border-radius:16px;padding:8px 12px;margin:8px 0;font-weight:800;font-size:clamp(17px,4vw,21px);border:3px solid transparent}
+.row.right{border-color:var(--ok)}.row.wrong{border-color:var(--no)}
+.row .opt{padding:7px 12px;font-size:16px}
+.fb{border-radius:18px;padding:10px 14px;margin-top:14px;font-weight:700;font-size:clamp(17px,4vw,21px);line-height:1.7}
+.fb.ok{background:var(--okbg);border:3px solid var(--ok)}
+.fb.no{background:var(--nobg);border:3px solid var(--no)}
+.score{font-size:58px;font-weight:800;color:var(--main)}
+.stars{font-size:42px;letter-spacing:6px}
+.tl{margin-top:10px;text-align:center}
+.tls{display:flex;gap:8px;overflow-x:auto;padding:8px 2px;-webkit-overflow-scrolling:touch}
+.hr{flex:0 0 auto;font-family:inherit;font-weight:800;font-size:16px;border:3px solid var(--optb);border-radius:16px;background:var(--opt);color:var(--ink);padding:6px 10px;min-width:62px;cursor:pointer}
+.hr.am{background:#fff3c4;color:#2b2d5b}.hr.pm{background:#d9d4ff;color:#2b2d5b}
+.hr.sel{border-color:var(--main);transform:scale(1.08)}
+.tld{display:flex;align-items:center;gap:10px;justify-content:center;background:var(--opt);border-radius:18px;padding:8px;margin-top:6px;font-weight:700;font-size:18px}
+.tld .clock{width:90px}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const A=document.getElementById('app');
+const clk=h=>{let s='<svg class="clock" viewBox="0 0 100 100"><circle cx="50" cy="50" r="47" fill="#fffbe8" stroke="#ffb703" stroke-width="5"/>';
+for(let i=1;i<=12;i++){const a=i*Math.PI/6;s+=`<text x="${50+36*Math.sin(a)}" y="${50-36*Math.cos(a)+4}" text-anchor="middle" font-size="10" font-weight="800" fill="#2b2d5b">${i}</text>`}
+s+=`<line x1="50" y1="50" x2="50" y2="14" stroke="#e8505b" stroke-width="3.5" stroke-linecap="round"/><line x1="50" y1="50" x2="50" y2="28" stroke="#2b2d5b" stroke-width="5" stroke-linecap="round" transform="rotate(${(h%12)*30} 50 50)"/><circle cx="50" cy="50" r="4" fill="#ff7a59"/></svg>`;return s};
+const AM='☀️ صباحًا',PM='🌙 مساءً',FP=['الفترة الصباحية','الفترة المسائية'];
+const L=[
+{t:'اكتشف الساعة',e:'🕰️',intro:'أهلاً يا بطل! الساعة الذهبية تحتاج من يفهم الساعة جيدًا. هيا نكتشفها معًا!',q:[
+{q:'ما الأداة التي نستخدمها لمعرفة الوقت؟',em:'⏰',o:['الساعة','المسطرة','الميزان'],a:0,e:'نستخدم الساعة لمعرفة الوقت.'},
+{q:'أي عقرب يشير إلى الساعات؟',v:clk(3),o:['العقرب القصير','العقرب الطويل'],a:0,e:'العقرب القصير (الأسود) يشير إلى الساعات، والطويل (الأحمر) يشير إلى الدقائق.'},
+{q:'العقرب القصير على 3 والطويل على 12، فكم الساعة؟',v:clk(3),o:['3','12','6'],a:0,e:'القصير على 3 والطويل على 12، فالساعة الثالثة تمامًا.'},
+{q:'العقرب القصير على 6 والطويل على 12، فكم الساعة؟',v:clk(6),o:['6','12','5'],a:0,e:'القصير على 6 والطويل على 12، فالساعة السادسة تمامًا.'},
+{q:'ما أهمية معرفة الوقت في حياتنا اليومية؟',em:'📅',o:['ننظم يومنا ونصل في الموعد','نعرف طول الأشياء','نعرف وزن الأشياء'],a:0,e:'معرفة الوقت تساعدنا على تنظيم يومنا والوصول في الموعد.'}]},
+{t:'صباح أم مساء؟',e:'🌗',tl:1,intro:'اليوم فيه فترة صباحية وفترة مسائية. شاهد الخط الزمني ثم ساعد تيكو في التصنيف!',q:[
+{q:'ماذا يسمى الوقت قبل الساعة 12 ظهرًا؟',em:'🌅',o:['صباحًا','مساءً','ليلًا'],a:0,e:'الوقت قبل الساعة 12 ظهرًا يسمى صباحًا.'},
+{q:'ماذا يسمى الوقت بعد الساعة 12 ظهرًا؟',em:'🌇',o:['صباحًا','مساءً','فجرًا'],a:1,e:'الوقت بعد الساعة 12 ظهرًا يسمى مساءً.'},
+{q:'ماذا نسمي الساعة 12 ظهرًا أحيانًا؟',v:clk(12),o:['الظهر','الصباح','المساء'],a:0,e:'الساعة 12 ظهرًا تسمى وقت الظهر.'},
+{q:'إذا كانت الساعة 9 صباحًا، ففي أي فترة من اليوم نكون؟',v:clk(9),o:FP,a:0,e:'9 صباحًا تقع في الفترة الصباحية.'},
+{q:'الذهاب إلى المدرسة في الساعة 7 صباحًا يكون في أي فترة؟',em:'🏫',o:FP,a:0,e:'7 صباحًا تقع في الفترة الصباحية.'},
+{q:'تناول العشاء في الساعة 8 مساءً يكون في أي فترة؟',em:'🍽️',o:FP,a:1,e:'8 مساءً تقع في الفترة المسائية.'},
+{q:'صنّف الأنشطة التالية إلى صباحية ومسائية:',sort:1,items:[['⏰','الاستيقاظ',0],['🏫','الذهاب للمدرسة',0],['🍽️','تناول العشاء',1],['😴','النوم',1]],e:'الاستيقاظ والذهاب للمدرسة صباحيان، وتناول العشاء والنوم مسائيان.'}]},
+{t:'احسب المدة الزمنية',e:'⏳',intro:'المدة الزمنية هي عدد الساعات بين البداية والنهاية. لنحسبها!',q:[
+{q:'كم ساعة في اليوم الواحد؟',em:'📆',o:['12','24','6'],a:1,e:'اليوم الواحد 24 ساعة.'},
+{q:'كم ساعة تساوي الفترة الصباحية؟',em:'🌅',o:['6','12','24'],a:1,e:'الفترة الصباحية 12 ساعة.'},
+{q:'كم ساعة تساوي الفترة المسائية؟',em:'🌙',o:['6','12','24'],a:1,e:'الفترة المسائية 12 ساعة.'},
+{q:'الفترة الصباحية 12 ساعة والمسائية 12 ساعة، فكم ساعة في اليوم كله؟',em:'➕',o:['12','24','36'],a:1,e:'12 + 12 = 24 ساعة.'},
+{q:'كم ساعة من الساعة 4 إلى الساعة 5؟',c:[4,5],o:['1 ساعة','2 ساعة','3 ساعات'],a:0,e:'من 4 إلى 5 ساعة واحدة.'},
+{q:'كم ساعة من الساعة 8 إلى الساعة 9؟',c:[8,9],o:['1 ساعة','2 ساعة','9 ساعات'],a:0,e:'من 8 إلى 9 ساعة واحدة.'},
+{q:'بدأت المدرسة الساعة 7 صباحًا وانتهت الساعة 1 ظهرًا. ما المدة التي قضيتها في المدرسة؟',c:[7,1],o:['5 ساعات','6 ساعات','7 ساعات'],a:1,e:'نعدّ من 7: 8، 9، 10، 11، 12، 1 = 6 ساعات.'}]},
+{t:'تحدي أبطال الزمن',e:'🏆',intro:'هذا هو التحدي الأخير! استخدم كل ما تعلمته لتستعيد الساعة الذهبية.',q:[
+{q:'أكمل: اليوم الواحد = … ساعة.',f:1,o:['12','24','6'],a:1,e:'اليوم الواحد = 24 ساعة.'},
+{q:'أكمل: الفترة الصباحية = … ساعة.',f:1,o:['12','24','6'],a:0,e:'الفترة الصباحية = 12 ساعة.'},
+{q:'أكمل: الفترة المسائية = … ساعة.',f:1,o:['12','24','6'],a:0,e:'الفترة المسائية = 12 ساعة.'},
+{q:'إذا كانت الساعة 8 صباحًا، فهل هذا الوقت قبل الساعة 12 ظهرًا أم بعدها؟',v:clk(8),o:['قبلها','بعدها'],a:0,e:'8 صباحًا قبل الساعة 12 ظهرًا.'},
+{q:'بدأت اللعب الساعة 5 مساءً واستمررت ساعتين. في أي ساعة تنتهي؟',em:'🎮',o:['6 مساءً','7 مساءً','8 مساءً'],a:1,e:'5 + ساعتان = 7، فتنتهي الساعة 7 مساءً.'},
+{q:'وقت الاستيقاظ الساعة 6. كيف نكتب الوقت؟',em:'🐓',o:['6 صباحًا','6 مساءً'],a:0,e:'نستيقظ في الصباح، فنكتب 6 صباحًا.'},
+{q:'وقت عمل الواجب الساعة 7 مساءً. كيف نكتب الوقت؟',em:'📝',o:['7 صباحًا','7 مساءً'],a:1,e:'الواجب بعد المدرسة في المساء، فنكتب 7 مساءً.'},
+{q:'أيهما يأتي أولًا؟',em:'🤔',o:['الساعة 6 صباحًا','الساعة 7 مساءً'],a:0,e:'الصباح يأتي قبل المساء، فالساعة 6 صباحًا أولًا.'},
+{q:'بدأت نشاطًا الساعة 6 صباحًا وانتهيت الساعة 7 صباحًا. ما المدة الزمنية؟',c:[6,7],o:['ساعة واحدة','ساعتان','ثلاث ساعات'],a:0,e:'من 6 إلى 7 ساعة واحدة.'},
+{q:'حدّد الفترة التي تقع فيها الساعة 10 صباحًا.',v:clk(10),o:FP,a:0,e:'10 صباحًا تقع في الفترة الصباحية.'}]}
+];
+const OK=['أحسنت يا بطل! 🌟','رائع جدًا! 🎉','إجابة صحيحة، أنت ذكي! 👏','ممتاز! استمر! 🚀'];
+const NO=['لا بأس، حاول معنا! 💪','قريب جدًا! تعلّم معنا 🌈','سنتعلم الإجابة معًا الآن 📘'];
+const TL=['منتصف الليل 🌙 وقت النوم','نوم عميق 😴','ما زلنا في الليل 🌌','النجوم في السماء ⭐','يقترب الفجر 🌄','يبدأ الصباح 🌅','نستيقظ ونستعد 🐓','نذهب إلى المدرسة 🏫','تناول الإفطار 🥞','الحصة الدراسية 📚','وقت الاستراحة 🎨','نكتب ونتعلم ✏️','الظهر ☀️ منتصف اليوم'];
+let lv=0,qi=0,score=0,lvScore=0,lvRight=0;
+const MAX=L.map(l=>l.q.length*10),TOT=MAX.reduce((a,b)=>a+b,0);
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const steps=()=>'<div class="steps">'+L.map((l,i)=>`<div class="step ${i<lv?'done':i==lv?'on':''}">${i<lv?'⭐':l.e}</div>`).join('')+'</div>';
+function tlHTML(){return `<div class="tl"><b>🕒 الخط الزمني: من 12 صباحًا إلى 12 ظهرًا (اضغط على ساعة)</b><div class="tls">${TL.map((_,i)=>`<button class="hr ${i==12?'pm':'am'}" onclick="hr(${i})">${i==0?12:i} ${i==12?'ظهرًا':'ص'}</button>`).join('')}</div><div class="tld" id="tld">👆 اختر ساعة لترى ماذا نفعل فيها</div></div>`}
+function hr(i){document.getElementById('tld').innerHTML=clk(i)+`<div>${i==0?12:i} ${i==12?'ظهرًا':'صباحًا'}<br>${TL[i]}</div>`;document.querySelectorAll('.hr').forEach((b,j)=>b.classList.toggle('sel',j==i))}
+function toggleTl(){const d=document.getElementById('tlp');d.innerHTML=d.innerHTML?'':tlHTML()}
+function welcome(){lv=qi=score=lvScore=lvRight=0;A.innerHTML=`<div class="card"><div class="tiko">🐥</div><h1>رحلة أبطال الزمن</h1><p>مرحبًا يا بطل! أنا <b>تيكو</b>، وقد ضاعت ساعتي الذهبية ⏰. هل تساعدني على استعادتها بعد أربعة مستويات؟</p><div class="bubble"><p>🕰️ اكتشف الساعة ← 🌗 صباح أم مساء؟ ← ⏳ احسب المدة ← 🏆 التحدي</p></div><button class="btn" onclick="intro()">ابدأ المغامرة 🚀</button></div>`}
+function intro(){qi=lvScore=lvRight=0;const l=L[lv];A.innerHTML=`<div class="card">${steps()}<div class="big">${l.e}</div><h2>المستوى ${['الأول','الثاني','الثالث','الرابع'][lv]}: ${l.t}</h2><div class="tiko" style="font-size:56px">🐥</div><div class="bubble"><p>${l.intro}</p></div>${l.tl?tlHTML():''}<button class="btn" onclick="ask()">هيا نبدأ ✨</button></div>`}
+function ask(){const l=L[lv],q=l.q[qi];
+const head=`<div class="top"><span class="pill">⭐ ${score}</span><span class="pill">سؤال ${qi+1} من ${l.q.length}</span><button class="btn sm" onclick="toggleTl()">🕒 الخط الزمني</button></div><div class="lvname">المستوى ${['الأول','الثاني','الثالث','الرابع'][lv]}: ${l.e} ${l.t}</div>${steps()}<div id="tlp"></div>`;
+if(q.sort){A.innerHTML=`<div class="card">${head}<div class="q">${q.q}</div>${q.items.map((it,i)=>`<div class="row" id="r${i}"><span>${it[0]} ${it[1]}</span><span><button class="opt" data-r="${i}" data-v="0">${AM}</button> <button class="opt" data-r="${i}" data-v="1">${PM}</button></span></div>`).join('')}<div id="fb"><button class="btn" id="chk" disabled style="opacity:.5">تحقّق ✅</button></div></div>`;
+const sel={};A.querySelectorAll('.row .opt').forEach(b=>b.onclick=()=>{const r=b.dataset.r;sel[r]=+b.dataset.v;document.querySelectorAll(`[data-r="${r}"]`).forEach(x=>x.classList.toggle('pick',x===b));if(Object.keys(sel).length==q.items.length){const c=document.getElementById('chk');c.disabled=false;c.style.opacity=1}});
+document.getElementById('chk').onclick=()=>{let all=true;q.items.forEach((it,i)=>{const g=sel[i]===it[2];if(!g)all=false;document.getElementById('r'+i).classList.add(g?'right':'wrong')});document.querySelectorAll('.row .opt').forEach(x=>x.disabled=true);fin(all,q)};return}
+let v=q.em?`<div class="big">${q.em}</div>`:q.c?clk(q.c[0])+'<div class="arrow">⬅️</div>'+clk(q.c[1]):q.v||'';
+const qt=q.f?q.q.replace('…','<span class="blank" id="bl">؟</span>'):q.q;
+const opts=q.o.map((t,i)=>({t,i})).sort(()=>Math.random()-.5);
+A.innerHTML=`<div class="card">${head}<div class="q">${qt}</div><div class="visual">${v}</div><div class="opts">${opts.map(o=>`<button class="opt" data-i="${o.i}">${o.t}</button>`).join('')}</div><div id="fb"></div></div>`;
+A.querySelectorAll('.opts .opt').forEach(b=>b.onclick=()=>{const g=+b.dataset.i===q.a;
+A.querySelectorAll('.opts .opt').forEach(x=>{x.disabled=true;if(+x.dataset.i===q.a)x.classList.add('right')});
+if(!g)b.classList.add('wrong');const bl=document.getElementById('bl');if(bl)bl.textContent=q.o[q.a];fin(g,q)})}
+function fin(g,q){if(g){score+=10;lvScore+=10;lvRight++}
+const last=qi==L[lv].q.length-1;
+document.getElementById('fb').innerHTML=`<div class="fb ${g?'ok':'no'}">${g?pick(OK)+' ⭐ +10 نقاط':pick(NO)}<br>${g?'':'الإجابة الصحيحة: '}${q.e}</div><button class="btn" onclick="next()">${last?'انهِ المستوى 🏁':'السؤال التالي ➡️'}</button>`;
+document.getElementById('fb').scrollIntoView({behavior:'smooth',block:'nearest'})}
+function next(){if(qi<L[lv].q.length-1){qi++;ask()}else lvEnd()}
+function lvEnd(){const l=L[lv],p=lvScore/MAX[lv],last=lv==L.length-1,st=p>=.9?'⭐⭐⭐':p>=.6?'⭐⭐':'⭐';
+A.innerHTML=`<div class="card"><div class="tiko">${p>=.6?'🎉':'🐥'}</div><h2>أنهيت المستوى ${['الأول','الثاني','الثالث','الرابع'][lv]}: ${l.t}</h2><div class="stars">${st}</div><p>إجابات صحيحة: <b>${lvRight}</b> من ${l.q.length}<br>نقاط هذا المستوى: <b>${lvScore}</b> من ${MAX[lv]}<br>مجموع نقاطك: <b>${score}</b></p><p>تقدمك في الرحلة: ${lv+1} من 4 مستويات</p><div class="bar"><i style="width:${(lv+1)*25}%"></i></div>${steps().replace('on"','done"').replace(/class="step on"/,'class="step done"')}<button class="btn" onclick="${last?'end()':'lv++;intro()'}">${last?'اعرض النتيجة النهائية 🏆':'المستوى التالي ➡️'}</button></div>`}
+function end(){lv=4;const p=score/TOT,st=p>=.9?'⭐⭐⭐':p>=.6?'⭐⭐':'⭐';
+const m=p>=.9?'أنت بطل الزمن الحقيقي! استعدنا الساعة الذهبية بفضلك 🏆':p>=.6?'عمل رائع! أوشكت أن تصبح بطل الزمن، وقليل من التدريب سيجعلك الأفضل 💪':'شكرًا لمساعدتك يا بطل! جرّب مرة أخرى لتتعلم أكثر وتستعيد الساعة كاملة 🌈';
+A.innerHTML=`<div class="card"><div class="tiko">🥳</div><h1>استعدنا الساعة الذهبية! ⏰</h1><div class="stars">${st}</div><p>مجموع نقاطك</p><div class="score">${score} / ${TOT}</div><div class="bubble"><p>${m}</p></div><button class="btn" onclick="welcome()">العب مرة أخرى 🔄</button></div>`}
+welcome();
+</script>
+</body>
+</html>
